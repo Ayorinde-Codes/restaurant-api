@@ -55,7 +55,7 @@ class AuthenticationController extends Controller
                 $data['user']= $createUser;
                 $data['token']= $token;
 
-                return $this->okResponse("User Created Successfully", new UserResource($createUser));
+                return $this->createdResponse("User Created Successfully", new UserResource($data));
             }
             else{
                 return $this->errorResponse("User Creation Failed");
