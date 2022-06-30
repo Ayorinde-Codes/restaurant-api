@@ -14,4 +14,17 @@ class RestaurantController extends Controller
 
         return $this->okResponse('Restaurant retrieved successfuly', new RestaurantResources($restaurant));
     }
+
+    public function show($id)
+    {
+        $restaurant = Restaurant::find($id);
+
+        if($restaurant)
+        {
+            return $this->okResponse("restaurant gotten successfully", new RestaurantResources($restaurant));
+        }
+
+        return $this->notFoundResponse("restaurant not found");
+
+    }
 }
