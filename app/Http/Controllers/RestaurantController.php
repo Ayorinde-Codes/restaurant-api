@@ -25,6 +25,17 @@ class RestaurantController extends Controller
         }
 
         return $this->notFoundResponse("restaurant not found");
+    }
 
+    public function update(Request $request, $id)
+    {
+        $restaurant = Restaurant::find($id);
+        
+        if($restaurant)
+        {
+            $restaurant->update($request->all());
+            return $this->okResponse("restaurant updated successfully", new RestaurantResources($restaurant));
+        }
+        return $this->notFoundResponse("restaurant not found");
     }
 }
