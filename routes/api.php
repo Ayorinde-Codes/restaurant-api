@@ -25,3 +25,6 @@ Route::get('/', [Controller::class, 'init']);
 Route::post('register', [AuthenticationController::class, 'register'])->name('app.register');
 
 Route::post('login', [AuthenticationController::class, 'authenticate'])->name('app.login');
+
+
+Route::get('/restaurants', [RestaurantController::class, 'index'])->name('restaurants.index');
