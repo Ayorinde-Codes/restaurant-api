@@ -26,8 +26,13 @@ class AuthenticationController extends Controller
 
             return $this->ServerErrorResponse("could_not_create_token");
         }
-
-        return $this->okResponse("Login Successful",$token);
+         
+        $data = [
+            'token' => $token,
+            'user' => Auth::user()
+        ];
+        
+        return $this->okResponse("Login Successful", $data);
     }
 
     /* *
