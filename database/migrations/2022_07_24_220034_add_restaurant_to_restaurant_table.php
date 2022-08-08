@@ -24,8 +24,15 @@ class AddRestaurantToRestaurantTable extends Migration
             ],
             [
                 'name' => 'Domino',
-                'contact' => '111111',
-                'address' => 'Noida sector 50',
+                'contact' => '333333',
+                'address' => 'Gurgaon sector 20',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Kfc',
+                'contact' => '4444',
+                'address' => 'Delgi cp',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -39,6 +46,5 @@ class AddRestaurantToRestaurantTable extends Migration
      */
     public function down()
     {
-        
     }
 }

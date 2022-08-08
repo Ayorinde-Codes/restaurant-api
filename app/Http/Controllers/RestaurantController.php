@@ -19,8 +19,7 @@ class RestaurantController extends Controller
     {
         $restaurant = Restaurant::find($id);
 
-        if($restaurant)
-        {
+        if ($restaurant) {
             return $this->okResponse("restaurant gotten successfully", new RestaurantResources($restaurant));
         }
 
@@ -30,9 +29,8 @@ class RestaurantController extends Controller
     public function update(Request $request, $id)
     {
         $restaurant = Restaurant::find($id);
-        
-        if($restaurant)
-        {
+
+        if ($restaurant) {
             $restaurant->update($request->all());
             return $this->okResponse("restaurant updated successfully", new RestaurantResources($restaurant));
         }
