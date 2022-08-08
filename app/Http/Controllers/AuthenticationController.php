@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class AuthenticationController extends Controller
         $credentials = $request->only('email', 'password');
 
         try {
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
 
                 return $this->errorResponse("Invalid Credentials");
             }
@@ -26,12 +26,12 @@ class AuthenticationController extends Controller
 
             return $this->ServerErrorResponse("could_not_create_token");
         }
-         
+
         $data = [
             'token' => $token,
             'user' => Auth::user()
         ];
-        
+
         return $this->okResponse("Login Successful", $data);
     }
 
@@ -41,32 +41,30 @@ class AuthenticationController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function register(CreateUserRequest $request)
-    {        
+    public function register(UserRequest $request)
+    {
         try {
             $response = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ];
-            
+
             $createUser = User::create($response);
 
             $token = JWTAuth::fromUser($createUser);
 
-            if($createUser){
+            if ($createUser) {
 
-                
-                $data['user']= $createUser;
-                $data['token']= $token;
+
+                $data['user'] = $createUser;
+                $data['token'] = $token;
 
                 return $this->createdResponse("User Created Successfully", new UserResource($data));
-            }
-            else{
+            } else {
                 return $this->errorResponse("User Creation Failed");
             }
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return $this->errorResponse('User Registration Failed!');
         }
@@ -76,24 +74,21 @@ class AuthenticationController extends Controller
     {
         try {
 
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                    return $this->notFoundResponse('User Not Found!');
+            if (!$user = JWTAuth::parseToken()->authenticate()) {
+                return $this->notFoundResponse('User Not Found!');
             }
-
         } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
             return $this->ServerErrorResponse('token_expired', $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
 
             return $this->ServerErrorResponse('token_invalid', $e->getStatusCode());
-
         } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
 
             return $this->ServerErrorResponse('token_absent', $e->getStatusCode());
         }
 
-        return $this->okResponse("User",$user);
+        return $this->okResponse("User", $user);
     }
 
     /**
@@ -107,4 +102,4 @@ class AuthenticationController extends Controller
 
         return $this->okResponse("Successfully logged out");
     }
-} 
+}
