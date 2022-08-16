@@ -10,7 +10,7 @@ class RestaurantController extends Controller
 {
     public function index()
     {
-        $restaurant = Restaurant::get();
+        $restaurant = Restaurant::all();
 
         return $this->okResponse('Restaurant retrieved successfuly', new RestaurantResources($restaurant));
     }
@@ -35,5 +35,12 @@ class RestaurantController extends Controller
             return $this->okResponse("restaurant updated successfully", new RestaurantResources($restaurant));
         }
         return $this->notFoundResponse("restaurant not found");
+    }
+
+    public function create(Request $request)
+    {
+        $restaurant = Restaurant::create($request->all());
+
+        return $this->createdResponse("restaurant created successfully", new RestaurantResources($restaurant));
     }
 }
